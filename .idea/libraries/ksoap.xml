@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="ksoap">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/BeHappy/libraries/ksoap.jar!/" />
+      <root url="jar://$PROJECT_DIR$/BeHappy/libraries/ksoap.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libraries/ksoap.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

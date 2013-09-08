@@ -1,15 +1,26 @@
 package com.ehappy.behappy;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
+
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+
+
+import java.net.URL;
 
 public class MainActivity extends Activity {
 
@@ -20,10 +31,20 @@ public class MainActivity extends Activity {
     String FILENAME = "AndroidSSO_data";
     private SharedPreferences mPrefs;
 
+    private static final String NAMESPACE = "com.service.ServiceImpl";
+    private static final String URL =
+            "http://192.168.202.124:9000/AndroidWS/wsdl/ServiceImpl.wsdl";
+    private static final String SOAP_ACTION = "ServiceImpl";
+    private static final String METHOD_NAME = "message";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
         facebook = new Facebook(APP_ID);
         mAsyncRunner = new AsyncFacebookRunner(facebook);
     }
@@ -38,7 +59,10 @@ public class MainActivity extends Activity {
 
     public void login(View v)
     {
-        loginToFacebook();
+        //loginToFacebook();
+        Intent myIntent = new Intent(this, FriendsActivity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        startActivity(myIntent);
     }
 
 
@@ -90,6 +114,24 @@ public class MainActivity extends Activity {
                         }
 
                     });
+        }
+    }
+
+    public void callService()
+    {
+        SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+        SoapSerializationEnvelope envelope =
+                new SoapSerializationEnvelope(SoapEnvelope.VER11);
+
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+        try {
+            androidHttpTransport.call(SOAP_ACTION, envelope);
+            SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
+            //ACTV.setHint("Received :" + resultsRequestSOAP.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
