@@ -24,5 +24,6 @@ android {
 
 dependencies {
     compile project(':libraries:facebook')
+    compile project(':libraries:androidxmlrpc')
     compile files('../libraries/ksoap.jar')
 }

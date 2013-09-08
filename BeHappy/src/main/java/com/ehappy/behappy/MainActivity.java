@@ -14,11 +14,14 @@ import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
 
-import org.ksoap2.SoapEnvelope;
+/*import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
+import org.ksoap2.transport.HttpTransportSE;*/
 
+
+import org.xmlrpc.android.XMLRPCClient;
+import org.xmlrpc.android.XMLRPCException;
 
 import java.net.URL;
 
@@ -117,7 +120,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void callService()
+    /*public void callService()
     {
         SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
         SoapSerializationEnvelope envelope =
@@ -131,6 +134,30 @@ public class MainActivity extends Activity {
             SoapObject resultsRequestSOAP = (SoapObject) envelope.bodyIn;
             //ACTV.setHint("Received :" + resultsRequestSOAP.toString());
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    public void callService()
+    {
+        XMLRPCClient client = new XMLRPCClient("http://foo.bar.com");
+// add 2 to 4
+        try {
+            int sum = (Integer) client.call("add", 2, 4);
+        } catch (XMLRPCException e) {
+            e.printStackTrace();
+        }
+// check whether x is inside range 4..10
+        int x = 5;
+        try {
+            boolean isInside = (Boolean) client.call("isInside", x, 4, 10);
+        } catch (XMLRPCException e) {
+            e.printStackTrace();
+        }
+// capitalize string
+        try {
+            String capitalized = (String) client.call("capitalize", "to be or not to be");
+        } catch (XMLRPCException e) {
             e.printStackTrace();
         }
     }
