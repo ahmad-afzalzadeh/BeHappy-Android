@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.DialogError;
@@ -23,7 +25,12 @@ import org.ksoap2.transport.HttpTransportSE;*/
 import org.xmlrpc.android.XMLRPCClient;
 import org.xmlrpc.android.XMLRPCException;
 
+import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Map;
 
 public class MainActivity extends Activity {
 
@@ -39,6 +46,8 @@ public class MainActivity extends Activity {
             "http://192.168.202.124:9000/AndroidWS/wsdl/ServiceImpl.wsdl";
     private static final String SOAP_ACTION = "ServiceImpl";
     private static final String METHOD_NAME = "message";
+
+    public static String[] unHappyFriends;
 
 
     @Override
@@ -63,9 +72,10 @@ public class MainActivity extends Activity {
     public void login(View v)
     {
         //loginToFacebook();
-        Intent myIntent = new Intent(this, FriendsActivity.class);
+        /*Intent myIntent = new Intent(this, FriendsActivity.class);
         //myIntent.putExtra("key", value); //Optional parameters
-        startActivity(myIntent);
+        startActivity(myIntent);*/
+        callService();
     }
 
 
@@ -138,28 +148,60 @@ public class MainActivity extends Activity {
         }
     }*/
 
+    static public String[] convertToStringArray(Object elm) {
+        ArrayList<String> arr = new ArrayList<String>();
+
+        for (int i = 0; i < Array.getLength(elm); ++i)
+            arr.add((String) Array.get(elm, i));
+
+        return (String[]) arr.toArray(); // this can be cast safely to an array of the type of elm
+    }
     public void callService()
     {
-        XMLRPCClient client = new XMLRPCClient("http://foo.bar.com");
-// add 2 to 4
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        String username = "admin";
+            String pwd = "admin";
+            String dbname = "behappydb";
+        String server_add = "http://openerp.ingenuity.com.my";
+        //OpenErpConnect sock_common = null;
         try {
-            int sum = (Integer) client.call("add", 2, 4);
-        } catch (XMLRPCException e) {
+           // sock_common = new OpenErpConnect(server_add, 8069, dbname, username, pwd,0);
+
+        XMLRPCClient sock_common = new XMLRPCClient("http://openerp.ingenuity.com.my/xmlrpc/common");
+           // String[] params = new String[]{dbname,username,pwd};
+        //sock_common.call("login", params);
+            Object uid = sock_common.call("login", dbname, username, pwd);
+            String userID = String.valueOf(uid);
+            Intent myIntent = new Intent(this, FriendsActivity.class);
+            //myIntent.putExtra("key", value); //Optional parameters
+            XMLRPCClient sock = new XMLRPCClient("http://openerp.ingenuity.com.my:8069/xmlrpc/object");
+            Object o = sock.call("check_happy");
+
+            unHappyFriends = convertToStringArray(o);
+
+            //Object[] obj = new Object[]{dbname, uID, pwd, "behappy.service", log};
+            //sock.callEx("check_server", obj);
+            startActivity(myIntent);
+            //Toast.makeText(null, "ok", Toast.LENGTH_SHORT).show();
+        //try {
+            //Object uID = sock_common.call("login", dbname, username, pwd);
+
+            //Dictionary<String, String> dic = new Dic
+
+            /*XMLRPCClient sock = new XMLRPCClient("http://openerp.ingenuity.com.my:8069/xmlrpc/object");
+            Object[] obj = new Object[]{dbname, uID, pwd, "behappy.service", log};
+            sock.callEx("create", obj);*/
+
+        /*} catch (XMLRPCException e) {
+            System.out.println(e.getMessage());
+        }*/
+
+        }catch (XMLRPCException e) {
+            //Toast.makeText(null, "err", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-// check whether x is inside range 4..10
-        int x = 5;
-        try {
-            boolean isInside = (Boolean) client.call("isInside", x, 4, 10);
-        } catch (XMLRPCException e) {
-            e.printStackTrace();
-        }
-// capitalize string
-        try {
-            String capitalized = (String) client.call("capitalize", "to be or not to be");
-        } catch (XMLRPCException e) {
-            e.printStackTrace();
-        }
+
     }
     
 }
