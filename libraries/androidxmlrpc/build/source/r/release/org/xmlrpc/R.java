@@ -33,8 +33,6 @@ public final class R {
         public static int text_view=0x7f030002;
     }
     public static final class string {
-        /**  From: file:/home/ahmad/AndroidStudioProjects/BeHappyProject/libraries/androidxmlrpc/res/values/strings.xml 
-         */
         public static int app_name=0x7f050000;
     }
 }

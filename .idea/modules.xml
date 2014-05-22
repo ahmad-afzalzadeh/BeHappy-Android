@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/BeHappyProject.iml" filepath="$PROJECT_DIR$/BeHappyProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/androidxmlrpc/androidxmlrpc.iml" filepath="$PROJECT_DIR$/libraries/androidxmlrpc/androidxmlrpc.iml" />
       <module fileurl="file://$PROJECT_DIR$/libraries/facebook/facebook.iml" filepath="$PROJECT_DIR$/libraries/facebook/facebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/libraries.iml" filepath="$PROJECT_DIR$/libraries/libraries.iml" />
     </modules>
   </component>
 </project>

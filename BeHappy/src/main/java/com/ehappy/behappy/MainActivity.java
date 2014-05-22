@@ -71,11 +71,12 @@ public class MainActivity extends Activity {
 
     public void login(View v)
     {
-        //loginToFacebook();
-        /*Intent myIntent = new Intent(this, FriendsActivity.class);
-        //myIntent.putExtra("key", value); //Optional parameters
-        startActivity(myIntent);*/
+        loginToFacebook();
         callService();
+        //Intent myIntent = new Intent(this, FriendsActivity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+       // startActivity(myIntent);
+        //
     }
 
 
@@ -160,47 +161,70 @@ public class MainActivity extends Activity {
     {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        String username = "admin";
+        XMLRPCClient sock_common = new XMLRPCClient("http://scripts.incutio.com/xmlrpc/simpleserver.php");
+        try {
+            //String result = (String) sock_common.call("test.getTime");
+            Integer result = (Integer)(sock_common.call("test.add", 6, 13));
+            //String result = (String) sock_common.call("test.addArray", new int[]{5,9,11});
+
+            Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show();
+        } catch (XMLRPCException e) {
+            e.printStackTrace();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        /*String username = "admin";
             String pwd = "admin";
             String dbname = "behappydb";
         String server_add = "http://openerp.ingenuity.com.my";
         //OpenErpConnect sock_common = null;
+        //sock_common = OpenErpConnect.connect(server_add, 8069, dbname, username, pwd);
+
+        //XMLRPCClient sock_common = new XMLRPCClient("http://openerp.ingenuity.com.my");
+        XMLRPCClient client = new XMLRPCClient("http://web-25681b10-b23b-434d-91f1-22c20e7636d5.runnable.com");
+        String[] x = {"ahmad", "ali"};
         try {
-           // sock_common = new OpenErpConnect(server_add, 8069, dbname, username, pwd,0);
-
-        XMLRPCClient sock_common = new XMLRPCClient("http://openerp.ingenuity.com.my/xmlrpc/common");
-           // String[] params = new String[]{dbname,username,pwd};
-        //sock_common.call("login", params);
-            Object uid = sock_common.call("login", dbname, username, pwd);
-            String userID = String.valueOf(uid);
-            Intent myIntent = new Intent(this, FriendsActivity.class);
-            //myIntent.putExtra("key", value); //Optional parameters
-            XMLRPCClient sock = new XMLRPCClient("http://openerp.ingenuity.com.my:8069/xmlrpc/object");
-            Object o = sock.call("check_happy");
-
-            unHappyFriends = convertToStringArray(o);
-
-            //Object[] obj = new Object[]{dbname, uID, pwd, "behappy.service", log};
-            //sock.callEx("check_server", obj);
-            startActivity(myIntent);
-            //Toast.makeText(null, "ok", Toast.LENGTH_SHORT).show();
-        //try {
-            //Object uID = sock_common.call("login", dbname, username, pwd);
-
-            //Dictionary<String, String> dic = new Dic
-
-            /*XMLRPCClient sock = new XMLRPCClient("http://openerp.ingenuity.com.my:8069/xmlrpc/object");
-            Object[] obj = new Object[]{dbname, uID, pwd, "behappy.service", log};
-            sock.callEx("create", obj);*/
-
-        /*} catch (XMLRPCException e) {
-            System.out.println(e.getMessage());
-        }*/
-
-        }catch (XMLRPCException e) {
-            //Toast.makeText(null, "err", Toast.LENGTH_SHORT).show();
+            String res = (String) client.call("say_hello", x);
+            int z = 0;
+        } catch (XMLRPCException e) {
             e.printStackTrace();
         }
+        // String[] params = new String[]{dbname,username,pwd};
+        //sock_common.call("login", params);
+        Object uid = null;
+        *//*try {
+            uid = sock_common.call("login", dbname, username, pwd);
+            String userID = String.valueOf(uid);
+            Object o = sock_common.call("check_service");
+            unHappyFriends = convertToStringArray(o);
+        } catch (XMLRPCException e) {
+            e.printStackTrace();
+        }*//*
+
+        //Intent myIntent = new Intent(this, FriendsActivity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        //XMLRPCClient sock = new XMLRPCClient("http://openerp.ingenuity.com.my/xmlrpc/object");
+
+
+
+        //Object[] obj = new Object[]{dbname, uID, pwd, "behappy.service", log};
+        //sock.callEx("check_server", obj);
+        //startActivity(myIntent);
+        //Toast.makeText(null, "ok", Toast.LENGTH_SHORT).show();
+        //try {
+        //Object uID = sock_common.call("login", dbname, username, pwd);
+
+        //Dictionary<String, String> dic = new Dic
+
+            *//*XMLRPCClient sock = new XMLRPCClient("http://openerp.ingenuity.com.my:8069/xmlrpc/object");
+            Object[] obj = new Object[]{dbname, uID, pwd, "behappy.service", log};
+            sock.callEx("create", obj);*//*
+
+        *//*} catch (XMLRPCException e) {
+            System.out.println(e.getMessage());
+        }*/
 
     }
     

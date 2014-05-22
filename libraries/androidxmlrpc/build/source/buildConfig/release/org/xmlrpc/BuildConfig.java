@@ -1,7 +1,13 @@
-/** Automatically generated file. DO NOT MODIFY */
+/**
+ * Automatically generated file. DO NOT MODIFY
+ */
 package org.xmlrpc;
 
 public final class BuildConfig {
-    public final static boolean DEBUG = false;
-
+  public static final boolean DEBUG = false;
+  public static final String PACKAGE_NAME = "org.xmlrpc";
+  public static final String BUILD_TYPE = "release";
+  public static final String FLAVOR = "";
+  public static final int VERSION_CODE = 1;
+  public static final String VERSION_NAME = "";
 }
